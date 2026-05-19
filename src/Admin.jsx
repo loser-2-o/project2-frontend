@@ -30,8 +30,12 @@ function Admin() {
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       )
-      setMessage(`Marked as ${status}!`)
-      fetchSubmissions()
+      if (status === 'rejected') {
+        setSubmissions(prev => prev.filter(sub => sub._id !== id))
+      } else {
+        setMessage(`Marked as ${status}!`)
+        fetchSubmissions()
+      }
     } catch (err) {
       setMessage('Something went wrong!')
     }
