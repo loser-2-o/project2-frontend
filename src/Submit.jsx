@@ -40,7 +40,6 @@ function Submit() {
 
   const statusStyle = (status) => {
     if (status === 'approved') return 'text-green-400 bg-green-900 border border-green-700'
-    if (status === 'rejected') return 'text-red-400 bg-red-900 border border-red-700'
     return 'text-yellow-400 bg-yellow-900 border border-yellow-700'
   }
 
@@ -87,18 +86,20 @@ function Submit() {
           </button>
         </div>
 
-        {submissions.length > 0 && (
+        {submissions.filter(sub => sub.status !== 'rejected').length > 0 && (
           <div className="bg-gray-900 rounded-2xl shadow-2xl p-8 border border-gray-800">
             <h2 className="text-xl font-bold text-blue-400 mb-4">All Submissions</h2>
             <ul className="space-y-3">
-              {submissions.map((sub) => (
-                <li key={sub._id} className="border border-gray-700 rounded-xl p-4 bg-gray-800">
-                  <h3 className="font-bold text-white mb-1">{sub.title}</h3>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusStyle(sub.status)}`}>
-                    {sub.status}
-                  </span>
-                </li>
-              ))}
+              {submissions
+                .filter(sub => sub.status !== 'rejected')
+                .map((sub) => (
+                  <li key={sub._id} className="border border-gray-700 rounded-xl p-4 bg-gray-800">
+                    <h3 className="font-bold text-white mb-2">{sub.title}</h3>
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusStyle(sub.status)}`}>
+                      {sub.status}
+                    </span>
+                  </li>
+                ))}
             </ul>
           </div>
         )}
